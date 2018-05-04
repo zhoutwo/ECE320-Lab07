@@ -382,7 +382,7 @@ int main(void) {
 
         // the set point is 100.0 for this run
 
-        u_ref_rad = 100.0 * PI / 180.0; // convert degrees to radians
+        u_ref_rad = 103 * PI / 180.0; // convert degrees to radians
         u_ref_duty = u_ref_rad * scale_servo + offset_servo;
 
         dutycycle = (unsigned int) u_ref_duty;
