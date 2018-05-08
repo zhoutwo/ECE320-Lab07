@@ -42,10 +42,10 @@
 
 
 #define MAX_COUNT 1
-#define MAX_ISUM 0.1
+#define MAX_ISUM 0.05
 #define MIN_DUTY_SERVO 256   // corresponds to 0 degrees
 #define MAX_DUTY_SERVO 857 // 1166   // corresponds to 130 degress
-#define MAX_DELTA_U_DUTY 1.5*4.6 // 4.6 corresponds to a 1 degree change 
+#define MAX_DELTA_U_DUTY 0.75*4.6 // 4.6 corresponds to a 1 degree change 
 #define PERIOD  4630
 //4630 
 #define MAX_DUTY 2*PERIOD // using up/down mode for pwm
@@ -301,9 +301,7 @@ int main(void) {
     double scale_QEI = 2 * PI / 8191.0; // scale to radians
     double scale_servo = 264.875, offset_servo = 256.04;
     double scale_servo_deg = 0.21633, offset_servo_deg = -55.388;
-    double kp = 0.0, ki = 0.0, kd = 0.0;
-
-
+    double kp = 5, ki = 0.50, kd = 3;
     // 0 degrees corresponds to 553 mu-seconds
     // 197 degrees corresponds to 2520 mu-seconds
     // the input angle is in radians
@@ -382,7 +380,7 @@ int main(void) {
 
         // the set point is 100.0 for this run
 
-        u_ref_rad = 103 * PI / 180.0; // convert degrees to radians
+        u_ref_rad = 103.3 * PI / 180.0; // convert degrees to radians
         u_ref_duty = u_ref_rad * scale_servo + offset_servo;
 
         dutycycle = (unsigned int) u_ref_duty;
@@ -454,7 +452,7 @@ int main(void) {
 
         // the following is because the system is not quite exact (not symmetric))
 
-        if (error > 0.0) error = error * 1.25;
+        if (error > 0.0) error = error * 1.2;
 
         /*********************************************/
         //  implement the CONTROLLER (Gc) functions
