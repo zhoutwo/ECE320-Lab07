@@ -42,7 +42,7 @@
 
 
 #define MAX_COUNT 1
-#define MAX_ISUM 0.1
+#define MAX_ISUM 0.05
 #define MIN_DUTY_SERVO 256   // corresponds to 0 degrees
 #define MAX_DUTY_SERVO 857 // 1166   // corresponds to 130 degress
 #define MAX_DELTA_U_DUTY 0.5*4.6 // 4.6 corresponds to a 1 degree change 
@@ -301,7 +301,7 @@ int main(void) {
     double scale_QEI = 2 * PI / 8191.0; // scale to radians
     double scale_servo = 264.875, offset_servo = 256.04;
     double scale_servo_deg = 0.21633, offset_servo_deg = -55.388;
-    double kp = 0.4, ki = 1, kd = 0.95;
+    double kp = 6.5, ki = 0.5, kd = 1.7;
     // 0 degrees corresponds to 553 mu-seconds
     // 197 degrees corresponds to 2520 mu-seconds
     // the input angle is in radians
@@ -349,7 +349,7 @@ int main(void) {
 
     // dt should be less than or equal to 0.25
 
-    dt = 0.05; // 0.5 the sampling interval in seconds
+    dt = 0.25; // 0.5 the sampling interval in seconds
 
     // dt = N*256/29,480,000;  assuming a 256 prescaler.
     // so N = dt* 115156
@@ -380,7 +380,7 @@ int main(void) {
 
         // the set point is 100.0 for this run
 
-        u_ref_rad = 103.3 * PI / 180.0; // convert degrees to radians
+        u_ref_rad = 93.0 * PI / 180.0; // convert degrees to radians
         u_ref_duty = u_ref_rad * scale_servo + offset_servo;
 
         dutycycle = (unsigned int) u_ref_duty;
@@ -452,7 +452,7 @@ int main(void) {
 
         // the following is because the system is not quite exact (not symmetric))
 
-        if (error > 0.0) error = error * 1.2;
+        if (error > 0.0) error = error * 0.7;
 
         /*********************************************/
         //  implement the CONTROLLER (Gc) functions
